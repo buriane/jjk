@@ -10,7 +10,7 @@ if(!$query){
 ?>
 <div class="dashboard-content">
     <h2>List Comments</h2>
-    <span><a href="index.php">Home</a> &gt; <a href="dashboard.php">Dashboard</a> &gt; <a href="list-comments.php">List Comments</a></span>
+    <span><a href="index.php">Home</a> &gt; <a href="dashboard.php">Dashboard</a> &gt; <a href="dashboard.php">List Comments</a></span>
     <div class="dashboard-item">
         <table>
             <tr>
