@@ -22,19 +22,21 @@
                     $_SESSION['username'] = $username;
                     $_SESSION['email'] = $row['email'];
                     $_SESSION['level'] = "Administrator";
-                    header('Location: account.php');
+                    header('Location: dashboard.php');
                     exit;
                 }else if($row['level'] == "Member"){
                     $_SESSION['username'] = $username;
                     $_SESSION['email'] = $row['email'];
                     $_SESSION['level'] = "Member";
-                    header('Location: account.php');
+                    header('Location: dashboard.php');
                     exit;
                 }
             }else{
                 $passwordError = true;
                 header('Location:login.php?message=failure');
             }
+        }else{
+            header('Location:login.php?message=failure');
         }
     }
 ?>

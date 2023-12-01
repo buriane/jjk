@@ -14,6 +14,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <style>
             body{background-color: rgba(13, 13, 13);}
+            .footer{background-color: transparent;}
         </style>
     </head>
     <body>
@@ -46,6 +47,8 @@
                     <a onclick="fullScreen();"><img src="assets/icon/expand.svg"> Expand</a>
                 </div>
                 <video controls>
+                    <?php 
+                    $sql = "SELECT * FROM episode JOIN season ON episode.id_episode = season.id_season WHERE id_episode = '$id_episode'";?>
                     <source src="https://drive.google.com/uc?export=download&id=1OFvWolWrqFX2McX8UqEN9EpK0ktSJ4UD" type="video/mp4">
                 </video>
                 <div class="watch-navigation">

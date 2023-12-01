@@ -11,7 +11,11 @@
         <li>
         <?php
         if(isset($_SESSION['username'])){
-            echo "<a href='account.php' class='nav-account'>Account</a>";
+            if($_SESSION['level'] == "Administrator"){
+                echo "<a href='dashboard.php' class='nav-account'>Dashboard</a>";
+            }else if($_SESSION['level'] == "Member"){
+                echo "<a href='dashboard.php' class='nav-account'>Account</a>";
+            }
         }else{
             echo "<a href='login.php' class='nav-account'>Login</a>";
         }

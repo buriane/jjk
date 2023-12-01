@@ -96,10 +96,30 @@ function screenBrightness(){
         document.getElementById("container-title").style.filter = "brightness(100%)";
         document.getElementById("watch-sidebar").style.filter = "brightness(100%)";
         document.getElementById("comment-section").style.filter = "brightness(100%)";
+        document.getElementById("footer").style.filter = "brightness(100%)";
         document.getElementById("comment").readOnly = "false";
     }
 }
 
+function toggleInput() {
+    var status = document.getElementById('status').value;
+    var fileInput = document.getElementById('fileInput');
+    var linkInput = document.getElementById('linkInput');
+    var file = document.getElementById('file');
+    var link = document.getElementById('link');
+
+    if (status === 'File') {
+        fileInput.style.display = 'block';
+        linkInput.style.display = 'none';
+        file.required = true;
+        link.required = false;
+    } else if (status === 'Link') {
+        fileInput.style.display = 'none';
+        linkInput.style.display = 'block';
+        file.required = false;
+        link.required = true;
+    }
+}
 
 window.onclick = function(e) {
     if (!e.target.matches('.dropbtn')) {

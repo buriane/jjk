@@ -5,9 +5,6 @@
 
     $articles = getTopArticles();
 
-    if (!isset($_SESSION['email'])) {
-        header('Location: login.php');
-    }
 ?>
 
 <!DOCTYPE html>
@@ -167,6 +164,9 @@
                             </li>
                         </ul>
                     <?php endwhile; ?>
+                    </div>
+                    <div class="article-btn">
+                        <a href="article.php">View All</a>
                     </div>
                 </div>
             </div>

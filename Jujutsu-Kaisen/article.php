@@ -24,11 +24,12 @@
         <div class="article-page">
             <div class="container-article">
                 <div class="sub-article">
-                    <h2>Article Lists <span> Jujutsu Kaisen</span></h2>
+                    <h2>Article Lists</h2>
+                    <span><a href="index.php">Home</a> &gt; <a href="article.php">Article</a></span>
                     <?php while ($article = mysqli_fetch_array($articles)): ?>
                     <div class="article-item">
                         <ul>
-                            <li><img src="assets/images/articles/article-01.png" alt=""></li>
+                            <li><a href=""><img src="assets/images/articles/article-01.png" alt="Article Image"></a></li>
                             <li class="right">
                                 <a href="article.php?id=<?php echo $article['id']; ?>" class="btn-news">News</a>
                                 <a href="article.php?id=<?php echo $article['id']; ?>"><h2><?php echo $article['article_name']; ?></h2></a>
@@ -37,26 +38,6 @@
                         </ul>
                     </div>
                     <?php endwhile; ?>
-                    <div class="article-item">
-                        <ul>
-                            <li><img src="assets/images/articles/article-02.jpeg" alt=""></li>
-                            <li class="right">
-                                <a href="" class="btn-news">News</a>
-                                <a href=""><h2>Kematian Gojo Satoru, Begini Komentar Komikus!</h2></a>
-                                <span>September 25, 2023</span>
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="article-item">
-                        <ul>
-                            <li><img src="assets/images/articles/article-03.jpeg" alt=""></li>
-                            <li class="right">
-                                <a href="" class="btn-news">News</a>
-                                <a href=""><h2>Penjelasan Akhir Film Jujutsu Kaisen!</h2></a>
-                                <span>March 24, 2023</span>
-                            </li>
-                        </ul>
-                    </div>
                     <div class="article-pagination">
                         <!-- Pagination -->
                         <?php if ($halamanAktif > 1) : ?>
