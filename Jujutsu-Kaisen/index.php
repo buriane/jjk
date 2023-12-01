@@ -154,7 +154,7 @@
                     <?php while ($article = mysqli_fetch_array($articles)): ?>
                         <ul>
                             <li>
-                                <img src="<?php echo $article['article_image']; ?>" alt="article-img">
+                                <img src="assets/images/articles/<?php echo $article['article_image']; ?>" alt="article-img" width="200px">
                             </li>
                             <li>
                                 <h3><?php echo mb_strimwidth($article['article_name'], 0, 78, "..."); ?></h3>

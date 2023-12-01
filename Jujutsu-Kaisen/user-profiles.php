@@ -80,7 +80,6 @@ $data = mysqli_fetch_array($query);
     <div class="dashboard-item">
         <form name="change-profiles" action="<?php $_SERVER['PHP_SELF'];?>" method="POST" enctype="multipart/form-data">
             <img src="assets/images/profiles/<?php echo $data['picture'];?>">
-            <input type="file" name="picture"  style="background:transparent;color:#fff;border-bottom:0;padding:20px 8px 0px">
             <label for="username">Username</label>
             <input type="text" name="username" placeholder="Your username here" value="<?php echo $data['username'];?>" required>
             <label for="email">Email</label>
