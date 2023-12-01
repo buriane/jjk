@@ -8,6 +8,7 @@ $query = mysqli_query($conn, $sql);
 $data = mysqli_fetch_assoc($query);
 
 if(isset($_POST['update-article'])){
+    $article_id     = $_POST['article-id'];
     $article_title  = $_POST['article-title'];
     $article_content= $_POST['article-content'];
     
@@ -27,7 +28,7 @@ if(isset($_POST['update-article'])){
 
         $sql = "UPDATE article SET article_name = '$article_title', article_content = '$article_content', article_image = '$nameuploaded' WHERE id = '$id'";
     }else{
-        $sql = "UPDATE article SET article_name = '$article_title', article_content = '$article_content' WHERE id = '$id'";
+        $sql = "UPDATE article SET article_name = '$article_title', article_content = '$article_content', article_image = '' WHERE id = '$id'";
     }
 
     $query = mysqli_query($conn, $sql);

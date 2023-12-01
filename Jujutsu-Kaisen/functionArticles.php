@@ -8,6 +8,12 @@ function getTopArticles() {
     return mysqli_query($conn, $query);
 }
 
+function getTopArticlesinSeason() {
+    global $conn;
+    $query = "SELECT * FROM article ORDER BY article_release DESC LIMIT 5";
+    return mysqli_query($conn, $query);
+}
+
 //Semua articles
 function getAllArticles() {
     global $conn;

@@ -25,10 +25,12 @@ if(!$query){
             <tr>
                 <td><?php echo $data[1];?></td>
                 <td><?php echo $data[2];?></td>
-                <td><?php echo $data[3];?></td>
+                <td>
+                    <?php echo $data[3]; ?>
+                </td>
                 <td>
                     <a href="update.php?update-article=<?php echo $data[0];?>" class="update"><img src="assets/icon/edit.svg" alt="Edit Button"></a>
-                    <a href="delete.php?delete-article=<?php echo $data[0];?>" class="delete"><img src="assets/icon/delete.svg" alt="Delete Button"></a>
+                    <a href="delete.php?delete-article=<?php echo $data[0];?>" class="delete" onclick="return confirm('Are you sure you want to delete this article?')"><img src="assets/icon/delete.svg" alt="Delete Button"></a>
                 </td>
             </tr>
             <?php } ?>

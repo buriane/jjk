@@ -1,6 +1,10 @@
 <?php
     include "connection.php";
     session_start();
+
+    include 'functionArticles.php';
+
+    $articles = getTopArticlesinSeason();
     
 ?>
 
@@ -113,56 +117,16 @@
             <div class="sidebar-article">
                 <h4>Recently Article</h4>
                 <div class="sidebar-content">
+                    <?php while ($article = mysqli_fetch_array($articles)): ?>
                         <div class="sidebar-item">
                             <a href=""><ul>
-                                <li><img src="assets/images/articles/article-01.png"></li>
-                                <li><p>Yuji Itadori di Jujutsu Kaisen, siapakah dia?</p></li>
-                                <li><span>27 December 2023</span></li>
+                                <li><img src="assets/images/articles/<?php echo $article['article_image']; ?>" alt="article-img" width="200px"></li>
+                                <li><p><?php echo mb_strimwidth($article['article_name'], 0, 78, "..."); ?></p></li>
+                                <li><span><?php echo date('F j, Y', strtotime($article['article_release'])); ?></span></li>
                             </ul></a>
                         </div>
-                        <div class="sidebar-item">
-                            <a href=""><ul>
-                                <li><img src="assets/images/articles/article-02.jpeg"></li>
-                                <li><p>Kematian Gojo Satoru, Begini Komentar Komikus!</p></li>
-                                <li><span>20 December 2023</span></li>
-                            </ul></a>
-                        </div>
-                        <div class="sidebar-item">
-                            <a href=""><ul>
-                                <li><img src="assets/images/articles/article-03.jpeg"></li>
-                                <li><p>Penjelasan Akhir Film Jujutsu Kaisen!</p></li>
-                                <li><span>09 November 2023</span></li>
-                            </ul></a>
-                        </div>
-                        <div class="sidebar-item">
-                            <a href=""><ul>
-                                <li><img src="assets/images/articles/article-01.png"></li>
-                                <li><p>Yuji Itadori di Jujutsu Kaisen, siapakah dia?</p></li>
-                                <li><span>27 December 2023</span></li>
-                            </ul></a>
-                        </div>
-                        <div class="sidebar-item">
-                            <a href=""><ul>
-                                <li><img src="assets/images/articles/article-02.jpeg"></li>
-                                <li><p>Kematian Gojo Satoru, Begini Komentar Komikus!</p></li>
-                                <li><span>20 December 2023</span></li>
-                            </ul></a>
-                        </div>
-                        <div class="sidebar-item">
-                            <a href=""><ul>
-                                <li><img src="assets/images/articles/article-03.jpeg"></li>
-                                <li><p>Penjelasan Akhir Film Jujutsu Kaisen!</p></li>
-                                <li><span>09 November 2023</span></li>
-                            </ul></a>
-                        </div>
-                        <div class="sidebar-item">
-                            <a href=""><ul>
-                                <li><img src="assets/images/articles/article-03.jpeg"></li>
-                                <li><p>Penjelasan Akhir Film Jujutsu Kaisen!</p></li>
-                                <li><span>09 November 2023</span></li>
-                            </ul></a>
-                        </div>
-                        <a href="" class="btn-article">View More</a>
+                    <?php endwhile; ?>
+                        <a href="article.php" class="btn-article">View More</a>
                 </div>
             </div>
         </div>

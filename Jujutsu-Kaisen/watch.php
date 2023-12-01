@@ -1,7 +1,28 @@
 <?php
     include "connection.php";
     session_start();
-    
+
+    if (!isset($_SESSION['comments'])) {
+        $_SESSION['comments'] = array();
+    }
+
+    if (isset($_POST['submit'])) {
+        $comment = array(
+            'username' => $_SESSION['username'],
+            'picture' => $_SESSION['picture'],
+            'comment' => $_POST['comment'],
+            'date' => date('d F Y')
+        );
+        array_unshift($_SESSION['comments'], $comment);
+    }
+
+    if (isset($_POST['submit_edit'])) {
+        $key = $_POST['comment_key'];
+        $_SESSION['comments'][$key]['comment'] = $_POST['edited_comment'];
+    } elseif (isset($_POST['delete'])) {
+        $key = $_POST['comment_key'];
+        unset($_SESSION['comments'][$key]);
+    }
 ?>
 
 <!DOCTYPE html>
@@ -167,37 +188,37 @@
                 <div class="comment-content">
                     <h2><img src="assets/icon/jujutsu-kaisen-highschool.ico"> Forum Discussion</h2>
                     <p>The place to express your ideas, feelings, and emotions about the new film you are watching. Hope you enjoy watching!</p>
-                    <div class="comment-items">
-                        <img src="assets/images/characters/megumi-fushiguro.jpg">
-                        <ul>
-                            <li>
-                                <h4>Megumi Fushiguro <span> on 24 October 2023</span></h4>
-                            </li>
-                            <li><p>This film is very exciting and makes me want to keep watching it, so it makes me addicted because it's too exciting, I hope there will be more films like this in the future! </p></li>
-                        </ul>
-                    </div>
-                    <div class="comment-items">
-                        <img src="assets/images/characters/yuji-itadori.jpg">
-                        <ul>
-                            <li>
-                                <h4>Yuji Itadori <span> on 24 October 2023</span></h4>
-                            </li>
-                            <li><p>This film is very exciting and makes me want to keep watching it, so it makes me addicted because it's too exciting, I hope there will be more films like this in the future! </p></li>
-                        </ul>
-                    </div>
-                    <div class="comment-items">
-                        <img src="assets/images/characters/gojo-satoru.jpg">
-                        <ul>
-                            <li>
-                                <h4>Gojo Satoru <span> on 24 October 2023</span></h4>
-                            </li>
-                            <li><p>This film is very exciting and makes me want to keep watching it, so it makes me addicted because it's too exciting, I hope there will be more films like this in the future! </p></li>
-                        </ul>
-                    </div>
+                    
+                    <?php foreach ($_SESSION['comments'] as $key => $comment): ?>
+                        <div class="comment-items">
+                            <img src="assets/images/profiles/<?php echo $comment['picture']; ?>">
+                            <ul>
+                                <li>
+                                    <h4><?php echo $comment['username']; ?> <span> on <?php echo $comment['date']; ?></span></h4>
+                                </li>
+                                <li><p id="comment-<?php echo $key; ?>"><?php echo $comment['comment']; ?></p></li>
+                                <?php if ($comment['username'] == $_SESSION['username']): ?>
+                                    <li>
+                                        <button onclick="document.getElementById('edit-form-<?php echo $key; ?>').style.display='block';">Edit</button>
+                                        <form action="<?php echo $_SERVER['REQUEST_URI']; ?>" method="POST" id="edit-form-<?php echo $key; ?>" style="display: none;">
+                                            <textarea name="edited_comment"><?php echo $comment['comment']; ?></textarea>
+                                            <input type="hidden" name="comment_key" value="<?php echo $key; ?>">
+                                            <input type="submit" name="submit_edit" value="Submit">
+                                        </form>
+                                        <form action="<?php echo $_SERVER['REQUEST_URI']; ?>" method="POST">
+                                            <input type="hidden" name="comment_key" value="<?php echo $key; ?>">
+                                            <input type="submit" name="delete" value="Delete">
+                                        </form>
+                                    </li>
+                                <?php endif; ?>
+                            </ul>
+                        </div>
+                    <?php endforeach; ?>
+
                     <?php if (isset($_SESSION['username'])): ?>
                     <form action="<?php echo $_SERVER['REQUEST_URI']; ?>" method="POST">
                     <div class="input-comment">
-                        <img src="assets/images/characters/suguru-geto.jpg">
+                        <img src="assets/images/profiles/<?php echo $_SESSION['picture']; ?>">
                         <ul>
                             <li><span>Comment as</span> <?php echo $_SESSION['username']; ?></li>
                             <li><textarea name="comment" id="comment" required></textarea></li>
@@ -207,6 +228,7 @@
                     </form>
                     <?php endif; ?>
                 </div>
+
             </div><br>
             <div class="footer" id="footer">
                 &copy; Jujutsu Kaisen 2023. All rights reserved.
