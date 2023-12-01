@@ -28,7 +28,7 @@ if(!$query){
                 <td><?php echo $data['picture'];?></td>
                 <td>
                     <a href="update.php?update-user=<?php echo $data['id'];?>" class="update"><img src="assets/icon/edit.svg" alt="Edit Button"></a>
-                    <a href="delete.php?delete-user=<?php echo $data['id'];?>" class="delete"><img src="assets/icon/delete.svg" alt="Delete Button"></a>
+                    <a href="delete.php?delete-user=<?php echo $data['id'];?>" class="delete" onclick="return confirm('Are you sure you want to delete this user?')"><img src="assets/icon/delete.svg" alt="Delete Button"></a>
                 </td>
             </tr>
             <?php } ?>

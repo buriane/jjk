@@ -25,4 +25,16 @@ if (isset($_GET['delete-article'])) {
         echo "<script>alert('Article has been deleted!'); document.location = 'dashboard.php?list-articles';</script>";
     }
 }
+
+if (isset($_GET['delete-comment'])) {
+    $id = $_GET['delete-comment'];
+    $delete = "DELETE FROM comment WHERE id_comment = '$id'";
+    $query = mysqli_query($conn, $delete);
+    
+    if ($query) {
+        echo "<script>alert('Comment has been deleted!'); document.location = 'dashboard.php?list-comments';</script>";
+    } else {
+        echo "<script>alert('Error! Cannot delete comment'); document.location = 'dashboard.php?list-comments';</script>";
+    }
+}
 ?>

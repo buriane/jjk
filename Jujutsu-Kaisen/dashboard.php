@@ -35,6 +35,7 @@
                         <a href="dashboard.php?list-articles"><li <?php if(isset($_GET['list-articles'])){echo "class='active'";}?>>List Articles</li></a>
                         <a href="dashboard.php?insert-episode"><li <?php if(isset($_GET['insert-episode'])){echo "class='active'";}?>>Insert Episode</li></a>
                         <a href="dashboard.php?list-episodes"><li <?php if(isset($_GET['list-episodes'])){echo "class='active'";}?>>List Episodes</li></a>
+                        <a href="dashboard.php?list-comments"><li <?php if(isset($_GET['list-comments'])){echo "class='active'";}?>>List Comments</li></a>
                         <a href="logout.php"><li class="logout">Logout</li></a>
                     </ul>
                 </div>
@@ -51,6 +52,8 @@
                 include('insert-episode.php');
             }else if(isset($_GET['list-episodes'])){
                 include('list-episodes.php');
+            }else if(isset($_GET['list-comments'])){
+                include('list-comments.php');
             }else{
                 header('Location:dashboard.php?user-profiles');
             }
