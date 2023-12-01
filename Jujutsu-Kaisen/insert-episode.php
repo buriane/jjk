@@ -14,7 +14,7 @@ if(isset($_POST['insert-episode'])){
         $uploaded = date('Y-m-d H:i:s');
 
         if (move_uploaded_file($tmp, $path)) {
-            $query = "INSERT INTO episode (episode, file, file_uploaded, status) VALUES ('$episode', '$path', '$uploaded', '$status')";
+            $query = "INSERT INTO episode (episode, file, file_uploaded, status, id_season) VALUES ('$episode_name', '$path', '$uploaded', '$status', '$season_id')";
             mysqli_query($conn, $query);
             echo "<script>alert('Episode has been uploaded!');</script>";
             header("Location: episode.php");
@@ -25,10 +25,10 @@ if(isset($_POST['insert-episode'])){
         // Handle link submission
         $link = $_POST['link'];
         $uploaded = date('Y-m-d H:i:s');
-        $query = "INSERT INTO episode (episode, file, file_uploaded, status) VALUES ('$episode', '$link', '$uploaded', '$status')";
+        $query = "INSERT INTO episode (episode, file, file_uploaded, status, id_season) VALUES ('$episode_name', '$link', '$uploaded', '$status', '$season_id')";
         mysqli_query($conn, $query);
         echo "<script>alert('Episode has been uploaded!');</script>";
-        header("Location: episode.php");
+        header("Location: dashboard.php?list-episodes");
     }
 }
 
@@ -37,7 +37,7 @@ if(isset($_POST['insert-episode'])){
     <h2>Insert Episode</h2>
     <span><a href="index.php">Home</a> &gt; <a href="dashboard.php">Dashboard</a> &gt; <a href="season-one.php">Insert Episode</a></span>
     <div class="dashboard-item">
-        <form name="insert-episode" action="<?php $_SERVER['PHP_SELF'];?>" method="POST">
+        <form name="insert-episode" action="<?php $_SERVER['PHP_SELF'];?>" method="POST" enctype="multipart/form-data">
             <label for="episode=name">Episode Name</label>
             <input type="text" name="episode-name" placeholder="Episode name here" required>
             <label for="status">Upload type</label>
