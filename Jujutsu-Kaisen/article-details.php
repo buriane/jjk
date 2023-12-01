@@ -4,7 +4,11 @@
 
     session_start();
     list($articles, $jumlahHalaman, $halamanAktif) = getAllArticles();
+    $id = $_GET['id'];
 
+    $query = "SELECT * FROM article WHERE id = $id";
+    $result = mysqli_query($conn, $query);
+    $article = mysqli_fetch_assoc($result);
 ?>
 
 <!DOCTYPE html>
@@ -25,52 +29,28 @@
             <div class="details-content">
                 <div class="details-item">
                     <span><a href="index.php">Home</a> &gt; <a href="article.php">Article</a> &gt; <a href="article-details.php">Jujutsu Kaisen (TV)</a></span>
-                    <h1>Kecelakaan Beruntun di Tol Jagorawi Dini Hari Tadi, 3 Orang Tewas</h1>
-                    <span>Thursday. November 30, 2023 | 14:29</span>
-                    <img src="assets/images/backgrounds/wallpapersden.com_satoru-gojo-cool-jujutsu-kaisen-hd_1920x1080.jpg" alt="Article Image">
-                    <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Animi incidunt velit illum unde, nulla dolor quia tempore quas aspernatur dicta odio soluta corrupti necessitatibus sapiente nam inventore nihil dignissimos quibusdam. Lorem ipsum dolor sit amet consectetur adipisicing elit. Consequatur illum perspiciatis obcaecati doloribus exercitationem necessitatibus, sit suscipit autem deserunt iure repellat unde dolorum sapiente placeat optio velit tenetur dolor in. Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolores dolor repudiandae eligendi, incidunt possimus dignissimos impedit dolore officiis fugiat nulla natus debitis perferendis deserunt ad, nemo quam alias quisquam illum. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Perferendis accusamus vel iste unde expedita reprehenderit sequi omnis repellendus, exercitationem optio autem placeat fugiat aperiam fugit adipisci animi magni! Fugit, vel.</p>
+                    <h1><?php echo $article['article_name']; ?></h1>
+                    <span><?php echo date('F j, Y', strtotime($article['article_release'])); ?></span>
+                    <img src="assets/images/articles/<?php echo $article['article_image']; ?>" alt="Article Image" width="100px">
+                    <p><?php echo $article['article_content']; ?></p>
                 </div>
                 <div class="sidebar-article">
-                    <h4>Recently Article</h4>
-                    <div class="sidebar-content">
-                            <div class="sidebar-item">
-                                <a href=""><ul>
-                                    <li><img src="assets/images/articles/article-01.png"></li>
-                                    <li><p>Yuji Itadori di Jujutsu Kaisen, siapakah dia?</p></li>
-                                    <li><span>27 December 2023</span></li>
-                                </ul></a>
-                            </div>
-                            <div class="sidebar-item">
-                                <a href=""><ul>
-                                    <li><img src="assets/images/articles/article-02.jpeg"></li>
-                                    <li><p>Kematian Gojo Satoru, Begini Komentar Komikus!</p></li>
-                                    <li><span>20 December 2023</span></li>
-                                </ul></a>
-                            </div>
-                            <div class="sidebar-item">
-                                <a href=""><ul>
-                                    <li><img src="assets/images/articles/article-03.jpeg"></li>
-                                    <li><p>Penjelasan Akhir Film Jujutsu Kaisen!</p></li>
-                                    <li><span>09 November 2023</span></li>
-                                </ul></a>
-                            </div>
-                            <div class="sidebar-item">
-                                <a href=""><ul>
-                                    <li><img src="assets/images/articles/article-01.png"></li>
-                                    <li><p>Yuji Itadori di Jujutsu Kaisen, siapakah dia?</p></li>
-                                    <li><span>27 December 2023</span></li>
-                                </ul></a>
-                            </div>
-                            <div class="sidebar-item">
-                                <a href=""><ul>
-                                    <li><img src="assets/images/articles/article-02.jpeg"></li>
-                                    <li><p>Kematian Gojo Satoru, Begini Komentar Komikus!</p></li>
-                                    <li><span>20 December 2023</span></li>
-                                </ul></a>
-                            </div>
-                            <a href="" class="btn-article">View More</a>
-                    </div>
+                <h4>Recently Article</h4>
+                <div class="sidebar-content">
+                    <?php while ($article = mysqli_fetch_array($articles)): ?>
+                        <div class="sidebar-item">
+                            <a href="article-details.php?id=<?php echo $article['id']; ?>">
+                                <ul>
+                                    <li><img src="assets/images/articles/<?php echo $article['article_image']; ?>" alt="article-img" width="200px"></li>
+                                    <li><p><?php echo mb_strimwidth($article['article_name'], 0, 78, "..."); ?></p></li>
+                                    <li><span><?php echo date('F j, Y', strtotime($article['article_release'])); ?></span></li>
+                                </ul>
+                            </a>
+                        </div>
+                    <?php endwhile; ?>
+                        <a href="article.php" class="btn-article">View More</a>
                 </div>
+            </div>
             </div>
         </div>
     <div class="footer" id="footer">

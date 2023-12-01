@@ -29,10 +29,10 @@
                     <?php while ($article = mysqli_fetch_array($articles)): ?>
                     <div class="article-item">
                         <ul>
-                            <li><a href=""><img src="assets/images/articles/<?php echo $article['article_image'] ?>" alt="Article Image"></a></li>
+                            <li><a href="article-details.php?id=<?php echo $article['id']; ?>"><img src="assets/images/articles/<?php echo $article['article_image'] ?>" alt="Article Image"></a></li>
                             <li class="right">
-                                <a href="article.php?id=<?php echo $article['id']; ?>" class="btn-news">News</a>
-                                <a href="article.php?id=<?php echo $article['id']; ?>"><h2><?php echo $article['article_name']; ?></h2></a>
+                                <a href="article-details.php?id=<?php echo $article['id']; ?>" class="btn-news">News</a>
+                                <a href="article-details.php?id=<?php echo $article['id']; ?>"><h2><?php echo $article['article_name']; ?></h2></a>
                                 <span><?php echo date('F j, Y', strtotime($article['article_release'])); ?></span>
                             </li>
                         </ul>

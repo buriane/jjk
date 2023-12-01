@@ -5,6 +5,10 @@
 
     $articles = getTopArticles();
 
+    if (!isset($_SESSION['email'])) {
+        header('Location: login.php');
+    }
+
 ?>
 
 <!DOCTYPE html>
@@ -160,7 +164,7 @@
                                 <h3><?php echo mb_strimwidth($article['article_name'], 0, 78, "..."); ?></h3>
                                 <span><?php echo date('F j, Y', strtotime($article['article_release'])); ?></span>
                                 <p><?php echo mb_strimwidth($article['article_content'], 0, 500, "..."); ?></p>
-                                <a href="article.php?id=<?php echo $article['id']; ?>">Read More</a>
+                                <a href="article-details.php?id=<?php echo $article['id']; ?>">Read More</a>
                             </li>
                         </ul>
                     <?php endwhile; ?>

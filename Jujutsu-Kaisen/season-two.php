@@ -112,11 +112,13 @@
                 <div class="sidebar-content">
                     <?php while ($article = mysqli_fetch_array($articles)): ?>
                         <div class="sidebar-item">
-                            <a href=""><ul>
-                                <li><img src="assets/images/articles/<?php echo $article['article_image']; ?>" alt="article-img" width="200px"></li>
-                                <li><p><?php echo mb_strimwidth($article['article_name'], 0, 78, "..."); ?></p></li>
-                                <li><span><?php echo date('F j, Y', strtotime($article['article_release'])); ?></span></li>
-                            </ul></a>
+                            <a href="article-details.php?id=<?php echo $article['id']; ?>">
+                                <ul>
+                                    <li><img src="assets/images/articles/<?php echo $article['article_image']; ?>" alt="article-img" width="200px"></li>
+                                    <li><p><?php echo mb_strimwidth($article['article_name'], 0, 78, "..."); ?></p></li>
+                                    <li><span><?php echo date('F j, Y', strtotime($article['article_release'])); ?></span></li>
+                                </ul>
+                            </a>
                         </div>
                     <?php endwhile; ?>
                     <a href="article.php" class="btn-article">View More</a>

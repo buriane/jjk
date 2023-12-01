@@ -14,7 +14,12 @@
             if($_SESSION['level'] == "Administrator"){
                 echo "<a href='dashboard.php' class='nav-account'>Dashboard</a>";
             }else if($_SESSION['level'] == "Member"){
-                echo "<a href='dashboard.php' class='nav-account'>Account</a>";
+                echo '<a style="text-decoration: none;" href="editProfile.php">' . $_SESSION['username'] . '</a>';
+                if (isset($_SESSION['picture']) && file_exists('assets/images/profiles/' . $_SESSION['picture'])) {
+                    echo '<img src="assets/images/profiles/' . $_SESSION['picture'] . '" alt="Profile Picture" width="200px" style="border-radius: 50%;">';
+                } else {
+                    echo '<img src="default.png" alt="Default Picture" width="200px" style="border-radius: 50%;">';
+                }
             }
         }else{
             echo "<a href='login.php' class='nav-account'>Login</a>";
