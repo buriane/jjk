@@ -22,12 +22,14 @@
                     $_SESSION['username'] = $username;
                     $_SESSION['email'] = $row['email'];
                     $_SESSION['level'] = "Administrator";
+                    $_SESSION['picture'] = $row['picture'];
                     header('Location: dashboard.php');
                     exit;
                 }else if($row['level'] == "Member"){
                     $_SESSION['username'] = $username;
                     $_SESSION['email'] = $row['email'];
                     $_SESSION['level'] = "Member";
+                    $_SESSION['picture'] = $row['picture'];
                     header('Location: dashboard.php');
                     exit;
                 }
