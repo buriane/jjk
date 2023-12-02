@@ -3,8 +3,9 @@ include "connection.php";
 
 session_start();
 if (!isset($_SESSION['username'])) {
-    die('User not logged in');
+    header('Location:login.php?message=validate');
 }
+
 
 $username = $_SESSION['username'];
 
@@ -43,6 +44,15 @@ if (isset($_POST['change_password'])) {
             .account-container{
                 padding: 120px 20px;
             }
+
+            .account-content h2 a{
+                text-decoration: none;
+                color: white;
+            }
+
+            .account-content h2 a:hover{
+                color: #767676;
+            }
         </style>
 </head>
 <body>
@@ -50,7 +60,7 @@ if (isset($_POST['change_password'])) {
             <div class="account-section">
                 <div class="account-content">
                     <form name="change-password" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="POST">
-                    <h2>User Profiles</h2>
+                    <h2><a href="account.php">&lt;</a> User Profiles</h2>
                     <span><a href="index.php">Home</a> &gt; <a href="account.php">User Profiles</a> &gt; <a href="changePass.php">Change Password</a></span>
                     <label for="old_password">Current Password</label>
                     <input id="old_password" type="password" name="old_password" required>

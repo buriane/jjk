@@ -3,7 +3,7 @@ include "connection.php";
 
 session_start();
 if (!isset($_SESSION['username'])) {
-    die('User not logged in');
+    header('Location:login.php?message=validate');
 }
 
 $username = $_SESSION['username'];
@@ -42,6 +42,16 @@ if (isset($_POST['update'])) {
         <link rel="icon" href="assets/icon/jujutsu-kaisen-highschool.ico"/>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <style>
+            .account-content h2 a{
+                text-decoration: none;
+                color: white;
+            }
+
+            .account-content h2 a:hover{
+                color: #767676;
+            }
+        </style>
 </head>
 <body>
     <nav id="navigation-bar">
@@ -81,7 +91,7 @@ if (isset($_POST['update'])) {
             </div>
             <div class="account-section">
                 <div class="account-content">
-                    <h2>User Profiles</h2>
+                    <h2><a href="index.php">&lt;</a> User Profiles</h2>
                     <span><a href="index.php">Home</a> &gt; <a href="account.php">User Profiles</a></span>
                     <label for="username">Username</label>
                     <input id="username" type="text" name="username" value="<?php echo $user['username']; ?>" required readonly><br>

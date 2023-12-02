@@ -8,6 +8,9 @@
         $id = $_GET['id_episode'];
         $query = "INSERT INTO comment (username, comment, id_episode) VALUES ('$user', '$comment', '$id')";
         mysqli_query($conn, $query);
+        if($query){
+            echo "<script>alert('Successfully add comment!');window.location.href = watch.php?id-episode=$id</script>";
+        }
     }
     
     $editing = false;
@@ -59,14 +62,22 @@
         <div class="watch-section">
             <div class="watch-content" id="watch-content">
                 <div class="watch-tools">
-                    <a href="">All Episodes</a>
+                    <?php
+                    $id = $_GET['id-episode'];  
+                    $sql = "SELECT * FROM episode JOIN season ON episode.id_season = season.id_season WHERE id_episode = '$id'";
+                    $query = mysqli_query($conn, $sql);
+                    $season = mysqli_fetch_assoc($query);
+                    if($season['id_season'] == 1){
+                    ?>
+                    <a href="season-one.php">All Episodes</a>
+                    <?php }else{?>
+                    <a href="season-two.php">All Episodes</a>
+                    <?php }?>
                     <a onclick="screenBrightness()" id="screen-brightness"><img src="assets/icon/light-bulb.svg"> Turn off the light</a>
                     <a onclick="fullScreen();" id="screen-size"><img src="assets/icon/expand.svg"> Expand</a>
                 </div>
                 <video controls>
                     <?php 
-                    $id = $_GET['id-episode'];
-
                     $sql = "SELECT * FROM episode JOIN season ON episode.id_season = season.id_season WHERE id_episode = '$id'";
                     $query = mysqli_query($conn, $sql);
                     $data = mysqli_fetch_array($query); 
@@ -96,10 +107,7 @@
                 </div>
                 <div class="container-title"  id="container-title">
                     <?php 
-                    $id = $_GET['id-episode'];  
-                    $sql = "SELECT * FROM episode JOIN season ON episode.id_season = season.id_season WHERE id_episode = '$id'";
-                    $query = mysqli_query($conn, $sql);
-                    $season = mysqli_fetch_assoc($query);
+
                     if($season['id_season'] == 1){
                     ?>
                     <img src="assets/images/jujutsu-kaisen-watch.jpg" class="img-title" alt="Jujutsu Kaisen">
@@ -124,7 +132,7 @@
                         <img src="assets/images/season-2.png" class="img-title" alt="Jujutsu Kaisen">
                         <div class="watch-title">
                         <ul>
-                            <li><h4>Watch <mark>Jujutsu Kaisen</mark> (TV) <?php echo $data['episode'];?> Subtitle Indonesia</h4></li>
+                            <li><h4>Watch <mark>Jujutsu Kaisen</mark> Season 2 <?php echo $data['episode'];?> Subtitle Indonesia</h4></li>
                             <li></li>
                             <li><p class="watch-paragraph"><span>Synopsis:</span>The second season of Jujutsu Kaisen will tell about Gojo's past and the Shibuya Incident Arc. Gojo Satoru's past began 11 years before Yuji Itadori entered Tokyo Jujutsu High School.</p></li>
                             <li>

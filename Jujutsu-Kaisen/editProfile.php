@@ -3,8 +3,9 @@ include "connection.php";
 
 session_start();
 if (!isset($_SESSION['username'])) {
-    die('User not logged in');
+    header('Location:login.php?message=validate');
 }
+
 
 $username = $_SESSION['username'];
 
