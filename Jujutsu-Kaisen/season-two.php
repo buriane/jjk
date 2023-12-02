@@ -85,24 +85,24 @@
                     <h4>Episode Jujutsu Kaisen Season 2</h4>
                     <div class="list-episode">
                         <ul>
-                            <li><a href="watch.php">Episode 18</a> <a href="watch.php" class="btn-episode">Watch</a></li>
-                            <li><a href="watch.php">Episode 17</a> <a href="watch.php" class="btn-episode">Watch</a></li>
-                            <li><a href="watch.php">Episode 16</a> <a href="watch.php" class="btn-episode">Watch</a></li>
-                            <li><a href="watch.php">Episode 15</a> <a href="watch.php" class="btn-episode">Watch</a></li>
-                            <li><a href="watch.php">Episode 14</a> <a href="watch.php" class="btn-episode">Watch</a></li>
-                            <li><a href="watch.php">Episode 13</a> <a href="watch.php" class="btn-episode">Watch</a></li>
-                            <li><a href="watch.php">Episode 12</a> <a href="watch.php" class="btn-episode">Watch</a></li>
-                            <li><a href="watch.php">Episode 11</a> <a href="watch.php" class="btn-episode">Watch</a></li>
-                            <li><a href="watch.php">Episode 10</a> <a href="watch.php" class="btn-episode">Watch</a></li>
-                            <li><a href="watch.php">Episode 9</a> <a href="watch.php" class="btn-episode">Watch</a></li>
-                            <li><a href="watch.php">Episode 8</a> <a href="watch.php" class="btn-episode">Watch</a></li>
-                            <li><a href="watch.php">Episode 7</a> <a href="watch.php" class="btn-episode">Watch</a></li>
-                            <li><a href="watch.php">Episode 6</a> <a href="watch.php" class="btn-episode">Watch</a></li>
-                            <li><a href="watch.php">Episode 5</a> <a href="watch.php" class="btn-episode">Watch</a></li>
-                            <li><a href="watch.php">Episode 4</a> <a href="watch.php" class="btn-episode">Watch</a></li>
-                            <li><a href="watch.php">Episode 3</a> <a href="watch.php" class="btn-episode">Watch</a></li>
-                            <li><a href="watch.php">Episode 2</a> <a href="watch.php" class="btn-episode">Watch</a></li>
-                            <li><a href="watch.php">Episode 1</a> <a href="watch.php" class="btn-episode">Watch</a></li>
+                            <li><a href="watch.php?id_episode=<?php echo $id_episode; ?>">Episode 18</a> <a href="watch.php?id_episode=<?php echo $id_episode; ?>" class="btn-episode">Watch</a></li>
+                            <li><a href="watch.php?id_episode=<?php echo $id_episode; ?>">Episode 17</a> <a href="watch.php?id_episode=<?php echo $id_episode; ?>" class="btn-episode">Watch</a></li>
+                            <li><a href="watch.php?id_episode=<?php echo $id_episode; ?>">Episode 16</a> <a href="watch.php?id_episode=<?php echo $id_episode; ?>" class="btn-episode">Watch</a></li>
+                            <li><a href="watch.php?id_episode=<?php echo $id_episode; ?>">Episode 15</a> <a href="watch.php?id_episode=<?php echo $id_episode; ?>" class="btn-episode">Watch</a></li>
+                            <li><a href="watch.php?id_episode=<?php echo $id_episode; ?>">Episode 14</a> <a href="watch.php?id_episode=<?php echo $id_episode; ?>" class="btn-episode">Watch</a></li>
+                            <li><a href="watch.php?id_episode=<?php echo $id_episode; ?>">Episode 13</a> <a href="watch.php?id_episode=<?php echo $id_episode; ?>" class="btn-episode">Watch</a></li>
+                            <li><a href="watch.php?id_episode=<?php echo $id_episode; ?>">Episode 12</a> <a href="watch.php?id_episode=<?php echo $id_episode; ?>" class="btn-episode">Watch</a></li>
+                            <li><a href="watch.php?id_episode=<?php echo $id_episode; ?>">Episode 11</a> <a href="watch.php?id_episode=<?php echo $id_episode; ?>" class="btn-episode">Watch</a></li>
+                            <li><a href="watch.php?id_episode=<?php echo $id_episode; ?>">Episode 10</a> <a href="watch.php?id_episode=<?php echo $id_episode; ?>" class="btn-episode">Watch</a></li>
+                            <li><a href="watch.php?id_episode=<?php echo $id_episode; ?>">Episode 9</a> <a href="watch.php?id_episode=<?php echo $id_episode; ?>" class="btn-episode">Watch</a></li>
+                            <li><a href="watch.php?id_episode=<?php echo $id_episode; ?>">Episode 8</a> <a href="watch.php?id_episode=<?php echo $id_episode; ?>" class="btn-episode">Watch</a></li>
+                            <li><a href="watch.php?id_episode=<?php echo $id_episode; ?>">Episode 7</a> <a href="watch.php?id_episode=<?php echo $id_episode; ?>" class="btn-episode">Watch</a></li>
+                            <li><a href="watch.php?id_episode=<?php echo $id_episode; ?>">Episode 6</a> <a href="watch.php?id_episode=<?php echo $id_episode; ?>" class="btn-episode">Watch</a></li>
+                            <li><a href="watch.php?id_episode=<?php echo $id_episode; ?>">Episode 5</a> <a href="watch.php?id_episode=<?php echo $id_episode; ?>" class="btn-episode">Watch</a></li>
+                            <li><a href="watch.php?id_episode=<?php echo $id_episode; ?>">Episode 4</a> <a href="watch.php?id_episode=<?php echo $id_episode; ?>" class="btn-episode">Watch</a></li>
+                            <li><a href="watch.php?id_episode=<?php echo $id_episode; ?>">Episode 3</a> <a href="watch.php?id_episode=<?php echo $id_episode; ?>" class="btn-episode">Watch</a></li>
+                            <li><a href="watch.php?id_episode=<?php echo $id_episode; ?>">Episode 2</a> <a href="watch.php?id_episode=<?php echo $id_episode; ?>" class="btn-episode">Watch</a></li>
+                            <li><a href="watch.php?id_episode=<?php echo $id_episode; ?>">Episode 1</a> <a href="watch.php?id_episode=<?php echo $id_episode; ?>" class="btn-episode">Watch</a></li>
                         </ul>
                     </div>
                 </div>
