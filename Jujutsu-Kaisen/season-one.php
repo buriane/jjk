@@ -85,6 +85,7 @@
                 <div class="season-episode">
                     <h4>Episode Jujutsu Kaisen (TV)</h4>
                     <div class="list-episode">
+                        <div class="list-episode">
                         <ul>
                             <?php
                             $sql = "SELECT * FROM episode JOIN season ON episode.id_season = season.id_season WHERE episode.id_season = 1 ORDER BY file_uploaded DESC";
@@ -94,6 +95,7 @@
                             <li><a href="watch.php?id-episode=<?php echo $data['id_episode'];?>"><?php echo $data['episode'];?></a> <a href="watch.php?id-episode=<?php echo $data['id_episode'];?>" class="btn-episode">Watch</a></li>
                             <?php } ?>
                         </ul>
+                    </div>
                     </div>
                 </div>
             </div>

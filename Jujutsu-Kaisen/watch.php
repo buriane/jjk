@@ -2,26 +2,36 @@
     include "connection.php";
     session_start();
 
-    if (!isset($_SESSION['comments'])) {
-        $_SESSION['comments'] = array();
-    }
-
     if (isset($_POST['submit'])) {
-        $comment = array(
-            'username' => $_SESSION['username'],
-            'picture' => $_SESSION['picture'],
-            'comment' => $_POST['comment'],
-            'date' => date('d F Y')
-        );
-        array_unshift($_SESSION['comments'], $comment);
+        $comment = $_POST['comment'];
+        $user = $_SESSION['username'];
+        $id = $_GET['id_episode'];
+        $query = "INSERT INTO comment (username, comment, id_episode) VALUES ('$user', '$comment', '$id')";
+        mysqli_query($conn, $query);
     }
-
-    if (isset($_POST['submit_edit'])) {
-        $key = $_POST['comment_key'];
-        $_SESSION['comments'][$key]['comment'] = $_POST['edited_comment'];
-    } elseif (isset($_POST['delete'])) {
-        $key = $_POST['comment_key'];
-        unset($_SESSION['comments'][$key]);
+    
+    $editing = false;
+    $edit_comment = '';
+    if (isset($_POST['edit'])) {
+        $editing = true;
+        $id_comment = $_POST['id_comment'];
+        $result = mysqli_query($conn, "SELECT comment FROM comment WHERE id_comment = $id_comment");
+        $row = mysqli_fetch_array($result);
+        $edit_comment = $row['comment'];
+    }
+    
+    if (isset($_POST['update'])) {
+        $id_comment = $_POST['id_comment'];
+        $comment = $_POST['edited_comment'];
+        $query = "UPDATE comment SET comment = '$comment' WHERE id_comment = $id_comment";
+        mysqli_query($conn, $query);
+        $editing = false;
+    }
+    
+    if (isset($_POST['delete'])) {
+        $id_comment = $_POST['id_comment'];
+        $query = "DELETE FROM comment WHERE id_comment = $id_comment";
+        mysqli_query($conn, $query);
     }
 
     if($_GET['id_episode']){
@@ -182,31 +192,53 @@
                     <h2><img src="assets/icon/jujutsu-kaisen-highschool.ico"> Forum Discussion</h2>
                     <p>The place to express your ideas, feelings, and emotions about the new film you are watching. Hope you enjoy watching!</p>
                     
-                    <?php foreach ($_SESSION['comments'] as $key => $comment): ?>
+                    <?php
+                    $result = mysqli_query($conn, "SELECT comment.*, user.picture FROM comment JOIN user ON comment.username = user.username WHERE id_episode = '$id' ORDER BY id_comment DESC");
+                    while ($row = mysqli_fetch_array($result)):
+                    ?>
                         <div class="comment-items">
-                            <img src="assets/images/profiles/<?php echo $comment['picture']; ?>">
+                        <?php if ($_SESSION['username'] == $row['username']): ?>
+                            <img src="assets/images/profiles/<?php echo $_SESSION['picture']; ?>">
                             <ul>
                                 <li>
-                                    <h4><?php echo $comment['username']; ?> <span> on <?php echo $comment['date']; ?></span></h4>
+                                    <h4><?php echo $row['username']; ?></h4>
                                 </li>
-                                <li><p id="comment-<?php echo $key; ?>"><?php echo $comment['comment']; ?></p></li>
-                                <?php if ($comment['username'] == $_SESSION['username']): ?>
+                                <li><p id="comment-<?php echo $row['id_comment']; ?>"><?php echo $row['comment']; ?></p></li>
+                                <?php if ($_SESSION['username'] == $row['username']): ?>
                                     <li>
-                                        <button onclick="document.getElementById('edit-form-<?php echo $key; ?>').style.display='block';">Edit</button>
-                                        <form action="<?php echo $_SERVER['REQUEST_URI']; ?>" method="POST" id="edit-form-<?php echo $key; ?>" style="display: none;">
-                                            <textarea name="edited_comment"><?php echo $comment['comment']; ?></textarea>
-                                            <input type="hidden" name="comment_key" value="<?php echo $key; ?>">
-                                            <input type="submit" name="submit_edit" value="Submit">
-                                        </form>
-                                        <form action="<?php echo $_SERVER['REQUEST_URI']; ?>" method="POST">
-                                            <input type="hidden" name="comment_key" value="<?php echo $key; ?>">
+                                        <?php if ($editing && $_POST['id_comment'] == $row['id_comment']): ?>
+                                            <!-- Form for editing comment -->
+                                            <form action="<?php echo $_SERVER['REQUEST_URI']; ?>" method="post">
+                                                <textarea name="edited_comment"><?php echo $row['comment']; ?></textarea>
+                                                <input type="hidden" name="id_comment" value="<?php echo $row['id_comment']; ?>">
+                                                <input type="submit" name="update" value="Save Edit">
+                                            </form>
+                                        <?php else: ?>
+                                            <!-- Form for initiating edit -->
+                                            <form action="<?php echo $_SERVER['REQUEST_URI']; ?>" method="post">
+                                                <input type="hidden" name="id_comment" value="<?php echo $row['id_comment']; ?>">
+                                                <input type="submit" name="edit" value="Edit">
+                                            </form>
+                                        <?php endif; ?>
+                                        <!-- Form for deleting comment -->
+                                        <form action="<?php echo $_SERVER['REQUEST_URI']; ?>" method="post">
+                                            <input type="hidden" name="id_comment" value="<?php echo $row['id_comment']; ?>">
                                             <input type="submit" name="delete" value="Delete">
                                         </form>
                                     </li>
                                 <?php endif; ?>
                             </ul>
+                        <?php else: ?>
+                            <img src="assets/images/profiles/<?php echo $row['picture']; ?>">
+                            <ul>
+                                <li>
+                                    <h4><?php echo $row['username']; ?></h4>
+                                </li>
+                                <li><p id="comment-<?php echo $row['id_comment']; ?>"><?php echo $row['comment']; ?></p></li>
+                            </ul>
+                        <?php endif; ?>
                         </div>
-                    <?php endforeach; ?>
+                    <?php endwhile; ?>
 
                     <?php if (isset($_SESSION['username'])){ ?>
                     <form action="<?php echo $_SERVER['REQUEST_URI']; ?>" method="POST">
