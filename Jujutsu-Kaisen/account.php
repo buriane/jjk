@@ -1,147 +1,108 @@
 <?php
-    include "connection.php";
-    session_start();
+include "connection.php";
 
-    if(!isset($_SESSION['username']) || !isset($_SESSION['email'])){
-        header('Location: login.php?message=validate');
-        exit;
+session_start();
+if (!isset($_SESSION['username'])) {
+    die('User not logged in');
+}
+
+$username = $_SESSION['username'];
+
+$result = mysqli_query($conn, "SELECT * FROM user WHERE username = '$username'");
+$user = mysqli_fetch_array($result);
+
+if (isset($_POST['update'])) {
+    $new_username = $_POST['username'];
+    $email = $_POST['email'];
+
+    if ($_FILES['picture']['error'] == UPLOAD_ERR_OK) {
+        $tmp_name = $_FILES['picture']['tmp_name'];
+        $name = $_FILES['picture']['name'];
+        move_uploaded_file($tmp_name, "assets/images/profiles/$name");
+    
+        $query = "UPDATE user SET username = '$new_username', email = '$email', picture = '$name' WHERE username = '$username'";
+    } else {
+        $query = "UPDATE user SET username = '$new_username', email = '$email', picture = NULL WHERE username = '$username'";
+        $_SESSION['picture'] = null;
     }
-
-    if(isset($_POST['submit'])){
-        $username = $_POST['username'];
-        $password = $_POST['password'];
-        $passwordError = false;
-
-        $sql = "SELECT * FROM user WHERE username='$username'";
-        $query = mysqli_query($conn, $sql);
-
-        if (mysqli_num_rows($query) > 0) {
-            $row = mysqli_fetch_array($query);
-            if (password_verify($password, $row['password'])){
-                if($row['level'] == "Administrator"){
-                    $_SESSION['username'] = $username;
-                    $_SESSION['email'] = $row['email'];
-                    $_SESSION['level'] = "Administrator";
-                    header('Location: index.php');
-                    exit;
-                }else if($row['level'] == "Member"){
-                    $_SESSION['username'] = $username;
-                    $_SESSION['email'] = $row['email'];
-                    $_SESSION['level'] = "Member";
-                    header('Location: index.php');
-                    exit;
-                }
-            }else{
-                $passwordError = true;
-            }
-        }
-    }
-
-    $username = $_SESSION['username'];
-
-    $result = mysqli_query($conn, "SELECT * FROM user WHERE username = '$username'");
-    $user = mysqli_fetch_array($result);
-
-    if (isset($_POST['change_password'])) {
-        $old_password = $_POST['old_password'];
-        $new_password = $_POST['new_password'];
-        $confirm_password = $_POST['confirm_password'];
-
-        if (password_verify($old_password, $user['password'])) {
-            if ($new_password == $confirm_password) {
-                $new_password = password_hash($new_password, PASSWORD_DEFAULT);
-                $query = "UPDATE user SET password = '$new_password' WHERE username = '$username'";
-                mysqli_query($conn, $query);
-                echo "<script>alert('Password has been changed!'); document.location = 'index.php';</script>";
-            } else {
-                echo "<script>alert('New password and confirm password do not match!');</script>";
-            }
-        } else {
-            echo "<script>alert('Current password is incorrect!');</script>";
-        }
-    }
+    
+    mysqli_query($conn, $query);
+    $_SESSION['username'] = $new_username;
+    $_SESSION['email'] = $email;
+    $_SESSION['picture'] = $name;
+    echo "<script>alert('Profile has been updated!'); document.location = 'index.php';</script>";
+}
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
-    <head>
+<head>
         <title>Jujutsu Kaisen - Shibuya Incident</title>
         <link rel="stylesheet" type="text/css" href="assets/css/style.css">
         <link rel="icon" href="assets/icon/jujutsu-kaisen-highschool.ico"/>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <style>
-            body{background-color: rgba(13, 13, 13);}
-            nav{margin-top: 28px;}
-            nav span{color: white;cursor: default;}
-        </style>
-    </head>
-    <body> 
-        <div class="account-container">
-            <div class="account-section">
-                <div class="account-left">
-                    <h4>Jujutsu Kaisen</h4><hr>
-                    <input type="text">
-                    <ul>
-                        <li id="users" class="active"><a onclick="userProfiles();">User Profiles</a></li>
-                        <li id="passwords"><a onclick="changePassword();">Change Password</a></li>
-                        <!--<li><a onclick="insertArticle();">Insert Article</a></li>
-                        <li><a onclick="insertEpisode();">Insert Episode</a></li>-->
-                    </ul>
+</head>
+<body>
+    <nav id="navigation-bar">
+        <a></a>
+        <ul>
+            <li style="padding:28px 8px">
+            <?php
+            if(isset($_SESSION['username'])){
+                if($_SESSION['level'] == "Administrator"){
+                    echo "<a href='dashboard.php' class='nav-account'>Dashboard</a>";
+                }else if($_SESSION['level'] == "Member"){
+                    echo "<a href='logout.php' class='nav-account'>Logout</a>";
+
+                }
+            }else{
+                header('Location:login.php?message=validate');
+            }
+            ?>
+            </li>
+        </ul>
+    </nav>
+    <div class="account-container">
+        <div class="profile-section">
+        <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post" enctype="multipart/form-data">
+            <div class="profile-content">
+                <?php if (file_exists('assets/images/profiles/' . $user['picture'])): ?>
+                <img id="profilePic" src="assets/images/profiles/<?php echo $user['picture']; ?>" alt="Profile Picture" width="200px"/><br>
+                <?php else: ?>
+                    <img id="profilePic" src="assets/images/profiles/admin_account.png" alt="Profile Picture" width="200px"/><br>
+                <?php endif; ?>
+                <div class="input-container">
+                    <label id="label-picture" for="picture">+</label>
+                    <input type="file" id="picture" accept="image/jpeg, image/jpg, image/png"/>
                 </div>
-                <div class="account-right" id="user-profiles">
-                    <div class="navbar">
-                        <ul>
-                            <li><a href="">test</a></li>
-                            <li>test</li>
-                            <li>test</li>
-                            <li>test</li>
-                        </ul>
-                    </div>
-                    <h4>User Profiles</h4>
-                    <div class="account-content">
-                        <form name="account-profiles" action="<?php $_SERVER['PHP_SELF']; ?>">
-                            <label>Display Name</label>
-                            <input type="text" name="fullname" placeholder="Display name" required>
-                            <label>Email</label>
-                            <input type="text" name="email" value="<?php echo $_SESSION['email']; ?>" disabled>
-                            <label>Username</label>
-                            <input type="text" name="username" value="<?php echo $_SESSION['username']; ?>" disabled>
-                            <input type="submit" name="update-profile" value="Modify">
-                        </form>
-                    </div>
-                    <a href='logout.php' class='btn-logout'><img src="assets/icon/power-off-solid.svg" class="img-logout" alt="Logout"></a>
-                </div>
-                <div class="account-right" id="change-password" style="display:none">
-                    <h4>Change Password</h4>
-                    <div class="account-content">
-                        <form name="account-password" action="<?php $_SERVER['PHP_SELF']; ?>" method="post">
-                            <label>Current Password</label>
-                            <input type="password" name="old_password" placeholder="Current password" required>
-                            <label>New Password</label>
-                            <input type="password" name="new_password" placeholder="New password" required>
-                            <label>Confirm Password</label>
-                            <input type="password" name="confirm_password" placeholder="Confirm password" required>
-                            <input type="submit" name="change_password" value="Change">
-                        </form>
-                    </div>
-                    <a href='logout.php' class='btn-logout'><img src="assets/icon/power-off-solid.svg" class="img-logout" alt="Logout"></a>
-                </div>
-                <!--<div class="account-right" id="insert-article" style="display:none">
-                    <h4>Insert Article</h4>
-                    <div class="account-content">
-                        <form name="account-password" action="<?php $_SERVER['PHP_SELF']; ?>">
-                            <label>Article Title</label>
-                            <input type="text" name="article-title" placeholder="Article title" required>
-                            <label>Article Content</label>
-                            <textarea name="article-content" placeholder="Article content" required></textarea>
-                            <label>Article Image</label>
-                            <input type="file" name="fullname" value="Muhammad Sultan Alhakim" required>
-                            <input type="submit" name="insert-article" value="Modify">
-                        </form>
-                    </div>
-                </div>-->
+                <input id="picture" type="file" name="picture"><br>
             </div>
-        </div>
-        <script src="assets/js/script.js"></script>
-    </body>
+            </div>
+            <div class="account-section">
+                <div class="account-content">
+                    <h2>User Profiles</h2>
+                    <span><a href="index.php">Home</a> &gt; <a href="account.php">User Profiles</a></span>
+                    <label for="username">Username</label>
+                    <input id="username" type="text" name="username" value="<?php echo $user['username']; ?>" required readonly><br>
+                    <label for="email">Email</label>
+                    <input id="email" type="email" name="email" value="<?php echo $user['email']; ?>" required><br>
+                    <input type="submit" name="update" value="Update">
+                    <a href="changePass.php" class="change-password">Change Password</a>
+                </div>
+            </div>
+        </form>
+    </div>
+    <script>
+        document.getElementById('picture').addEventListener('change', function(e) {
+            var reader = new FileReader();
+
+            reader.onload = function(e) {
+                document.getElementById('profilePic').src = e.target.result;
+            }
+
+            reader.readAsDataURL(e.target.files[0]);
+        });
+    </script>
+</body>
 </html>

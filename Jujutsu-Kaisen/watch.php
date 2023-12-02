@@ -23,6 +23,12 @@
         $key = $_POST['comment_key'];
         unset($_SESSION['comments'][$key]);
     }
+
+    if($_GET['id_episode']){
+        $id_episode = $_GET['id_episode'];
+
+
+    }
 ?>
 
 <!DOCTYPE html>
@@ -39,48 +45,57 @@
         </style>
     </head>
     <body>
-        <nav id="navigation-bar">
-            <a href="index.php"><img src="assets/images/logo.png" class="logo" alt="Logo"></a>
-            <ul>
-                <li class="dropdown">
-                    <button class="dropbtn" onclick="dropdownNav()">Watch</button>
-                    <ul class="dropdown-content" id="myDropdown">
-                        <li><a href="">Season 1</a></li>
-                        <li><a href="">Season 2</a></li>
-                    </ul>
-                </li>
-                <li>
-                <?php
-                if(isset($_SESSION['username'])){
-                    echo "<a href='account.php' class='nav-account'>Account</a>";
-                }else{
-                    echo "<a href='login.php' class='nav-account'>Login</a>";
-                }
-                ?>
-                </li>
-            </ul>
-        </nav>
+        <?php include("navbar.php");?>
         <div class="watch-section">
             <div class="watch-content" id="watch-content">
                 <div class="watch-tools">
                     <a href="">All Episodes</a>
-                    <a onclick="screenBrightness()"><img src="assets/icon/light-bulb.svg"> Turn off the light</a>
-                    <a onclick="fullScreen();"><img src="assets/icon/expand.svg"> Expand</a>
+                    <a onclick="screenBrightness()" id="screen-brightness"><img src="assets/icon/light-bulb.svg"> Turn off the light</a>
+                    <a onclick="fullScreen();" id="screen-size"><img src="assets/icon/expand.svg"> Expand</a>
                 </div>
                 <video controls>
                     <?php 
-                    $sql = "SELECT * FROM episode JOIN season ON episode.id_episode = season.id_season WHERE id_episode = '$id_episode'";?>
-                    <source src="https://drive.google.com/uc?export=download&id=1OFvWolWrqFX2McX8UqEN9EpK0ktSJ4UD" type="video/mp4">
+                    $id = $_GET['id-episode'];
+
+                    $sql = "SELECT * FROM episode JOIN season ON episode.id_season = season.id_season WHERE id_episode = '$id'";
+                    $query = mysqli_query($conn, $sql);
+                    $data = mysqli_fetch_array($query); 
+                    
+                    if($data['status'] == "Link"){?>
+                        <source src="https://drive.google.com/uc?export=download&id=<?php echo $data['file'];?>" type="video/mp4">
+                    <?php
+                    }else if($data['status'] == "File"){?>
+                        <source src="assets/videos/<?php echo $data['file'];?>" type="video/mp4">
+                    <?php } ?>
                 </video>
                 <div class="watch-navigation">
-                    <a href="">&lt;Previous</a>
+                    <?php 
+                        while ($data['id_episode'] != NULL && $data['id_episode'] > 0) {
+                            $data['id_episode']--;
+                            $previous = $data['id_episode'];
+                            if ($data['id_season'] == 1) {
+                                $previous = $data['id_episode'];
+                                break;
+                            } else {
+                                $data['id_episode']--;
+                            }
+                        }
+                    ?>
+                    <a href="watch.php?id-episode=<?php echo $previous;?>">&lt;Previous</a>
                     <a href="">Next&gt;</a>
                 </div>
                 <div class="container-title"  id="container-title">
+                    <?php 
+                    $id = $_GET['id-episode'];  
+                    $sql = "SELECT * FROM episode JOIN season ON episode.id_season = season.id_season WHERE id_episode = '$id'";
+                    $query = mysqli_query($conn, $sql);
+                    $season = mysqli_fetch_assoc($query);
+                    if($season['id_season'] == 1){
+                    ?>
                     <img src="assets/images/jujutsu-kaisen-watch.jpg" class="img-title" alt="Jujutsu Kaisen">
                     <div class="watch-title">
                         <ul>
-                            <li><h4>Watch <mark>Jujutsu Kaisen</mark> (TV) Episode 9 Subtitle Indonesia</h4></li>
+                            <li><h4>Watch <mark>Jujutsu Kaisen</mark> (TV) <?php echo $data['episode'];?> Subtitle Indonesia</h4></li>
                             <li></li>
                             <li><p class="watch-paragraph"><span>Synopsis:</span>Tells the story of Yuji Itadori who became a high school student because of an incident that doing  paranormal activities with an occult club. However, this relaxed lifestyle soon turns strange when he unknowingly discovers a cursed item. Yuuji finds himself suddenly thrust into a world of curses.</p></li>
                             <li>
@@ -90,97 +105,75 @@
                                 </span>
                             </li>
                             <li class="watch-download">Download Jujutsu Kaisen (TV)</li>
-                            <li class="sub-download"><span>480p</span> <a href="">pixeldrain</a></li>
-                            <li class="sub-download"><span>720p</span> <a href="">pixeldrain</a></li>
-                            <li class="sub-download"><span>1080p</span> <a href="">pixeldrain</a></li>
+                            <li class="sub-download"><span>480p</span> <a href="#">pixeldrain</a></li>
+                            <li class="sub-download"><span>720p</span> <a href="#">pixeldrain</a></li>
+                            <li class="sub-download"><span>1080p</span> <a href="#">pixeldrain</a></li>
                         </ul>
                     </div>
+                    <?php } else{ ?>
+                        <img src="assets/images/season-2.png" class="img-title" alt="Jujutsu Kaisen">
+                        <div class="watch-title">
+                        <ul>
+                            <li><h4>Watch <mark>Jujutsu Kaisen</mark> (TV) <?php echo $data['episode'];?> Subtitle Indonesia</h4></li>
+                            <li></li>
+                            <li><p class="watch-paragraph"><span>Synopsis:</span>The second season of Jujutsu Kaisen will tell about Gojo's past and the Shibuya Incident Arc. Gojo Satoru's past began 11 years before Yuji Itadori entered Tokyo Jujutsu High School.</p></li>
+                            <li>
+                                <span class="watch-footer">
+                                <span class="watch-mark">Starring: </span>
+                                Junya Enoki, Yuma Uchida, Asami Seto
+                                </span>
+                            </li>
+                            <li class="watch-download">Download Jujutsu Kaisen (TV)</li>
+                            <li class="sub-download"><span>480p</span> <a href="#">pixeldrain</a></li>
+                            <li class="sub-download"><span>720p</span> <a href="#">pixeldrain</a></li>
+                            <li class="sub-download"><span>1080p</span> <a href="#">pixeldrain</a></li>
+                        </ul>
+                    </div>
+                    <?php }?>
                 </div>
             </div>
             <!-- Watch Sidebar -->
             <div class="watch-sidebar" id="watch-sidebar">
                 <div class="sidebar-content">
-                    <div class="item">
-                        <a href="">
-                            <img src="assets/images/season-1.png">
-                            <ul>
-                                <li><h6>Jujutsu Kaisen Episode 1</h6></li>
-                                <li><p><span>Genre: </span>Action, Demons, Horror, School, Shounen, Supernatural</p></li>
-                                <li><p><span>Upload Date: </span>24 January 2023</p></li>
-                            </ul>
-                        </a>
-                    </div>
-                    <div class="item">
-                        <a href="">
-                            <img src="assets/images/season-1.png">
-                            <ul>
-                                <li><h6>Jujutsu Kaisen Episode 2</h6></li>
-                                <li><p><span>Genre: </span>Action, Demons, Horror, School, Shounen, Supernatural</p></li>
-                                <li><p><span>Upload Date: </span>26 January 2023</p></li>
-                            </ul>
-                        </a>
-                    </div>
-                    <div class="item">
-                        <a href="">
-                            <img src="assets/images/season-1.png">
-                            <ul>
-                                <li><h6>Jujutsu Kaisen Episode 3</h6></li>
-                                <li><p><span>Genre: </span>Action, Demons, Horror, School, Shounen, Supernatural</p></li>
-                                <li><p><span>Upload Date: </span>28 January 2023</p></li>
-                            </ul>
-                        </a>
-                    </div>
-                    <div class="item">
-                        <a href="">
-                            <img src="assets/images/season-1.png">
-                            <ul>
-                                <li><h6>Jujutsu Kaisen Episode 4</h6></li>
-                                <li><p><span>Genre: </span>Action, Demons, Horror, School, Shounen, Supernatural</p></li>
-                                <li><p><span>Upload Date: </span>3 February 2023</p></li>
-                            </ul>
-                        </a>
-                    </div>
-                    <div class="item">
-                        <a href="">
-                            <img src="assets/images/season-1.png">
-                            <ul>
-                                <li><h6>Jujutsu Kaisen Episode 5</h6></li>
-                                <li><p><span>Genre: </span>Action, Demons, Horror, School, Shounen, Supernatural</p></li>
-                                <li><p><span>Upload Date: </span>7 February 2023</p></li>
-                            </ul>
-                        </a>
-                    </div>
-                    <div class="item">
-                        <a href="">
-                            <img src="assets/images/season-1.png">
-                            <ul>
-                                <li><h6>Jujutsu Kaisen Episode 6</h6></li>
-                                <li><p><span>Genre: </span>Action, Demons, Horror, School, Shounen, Supernatural</p></li>
-                                <li><p><span>Upload Date: </span>11 February 2023</p></li>
-                            </ul>
-                        </a>
-                    </div>
-                    <div class="item">
-                        <a href="">
-                            <img src="assets/images/season-1.png">
-                            <ul>
-                                <li><h6>Jujutsu Kaisen Episode 7</h6></li>
-                                <li><p><span>Genre: </span>Action, Demons, Horror, School, Shounen, Supernatural</p></li>
-                                <li><p><span>Upload Date: </span>14 February 2023</p></li>
-                            </ul>
-                        </a>
-                    </div>
-                    <div class="item">
-                        <a href="">
-                            <img src="assets/images/season-1.png">
-                            <ul>
-                                <li><h6>Jujutsu Kaisen Episode 8</h6></li>
-                                <li><p><span>Genre: </span>Action, Demons, Horror, School, Shounen, Supernatural</p></li>
-                                <li><p><span>Upload Date: </span>15 February 2023</p></li>
-                            </ul>
-                        </a>
-                    </div>
-                    <a href="" class="btn-watch">Watch More</a>
+                    <?php
+                    
+                    if($season['id_season'] == 1){
+                        $sql = "SELECT * FROM episode JOIN season ON episode.id_season = season.id_season WHERE episode.id_season = 1 ORDER BY id_episode ASC";
+                        $query = mysqli_query($conn, $sql);
+                        while($data = mysqli_fetch_assoc($query)){ ?>
+                        <div class="item">
+                            <a href="watch.php?id-episode=<?php echo $data['id_episode'];?>">
+                                <img src="assets/images/season-1.png">
+                                <ul>
+                                    <li><h6>Jujutsu Kaisen <?php echo $data['episode'];?></h6></li>
+                                    <li><p><span>Genre: </span>Action, Demons, Horror, School, Shounen, Supernatural</p></li>
+                                    <li><p><span>Upload Date: </span><?php echo date('F d, Y', strtotime($data['file_uploaded']));?></p></li>
+                                </ul>
+                            </a>
+                        </div>
+                    <?php } 
+                    }else{ 
+                        $sql = "SELECT * FROM episode JOIN season ON episode.id_season = season.id_season WHERE episode.id_season = 2 ORDER BY id_episode ASC";
+                        $query = mysqli_query($conn, $sql);
+                        while($data = mysqli_fetch_assoc($query)){ 
+                        ?>
+                        <div class="item">
+                            <a href="watch.php?id-episode=<?php echo $data['id_episode'];?>">
+                                <img src="assets/images/season-2.png">
+                                <ul>
+                                    <li><h6>Jujutsu Kaisen <?php echo $data['episode'];?></h6></li>
+                                    <li><p><span>Genre: </span>Action, Demons, Horror, School, Shounen, Supernatural</p></li>
+                                    <li><p><span>Upload Date: </span><?php echo date('F d, Y', strtotime($data['file_uploaded']));?></p></li>
+                                </ul>
+                            </a>
+                        </div>
+                    <?php }
+                    }
+                    if($season['id_season'] == 1){ ?>
+                    <a href="season-one.php" class="btn-watch">Watch More</a>
+                    <?php }else if($season['id_season'] == 2){ ?>
+                    <a href="season-two.php" class="btn-watch">Watch More</a>
+                    <?php } ?> ?>
                 </div>
             </div>
             <!-- Comment Section -->
@@ -215,18 +208,26 @@
                         </div>
                     <?php endforeach; ?>
 
-                    <?php if (isset($_SESSION['username'])): ?>
+                    <?php if (isset($_SESSION['username'])){ ?>
                     <form action="<?php echo $_SERVER['REQUEST_URI']; ?>" method="POST">
                     <div class="input-comment">
                         <img src="assets/images/profiles/<?php echo $_SESSION['picture']; ?>">
                         <ul>
                             <li><span>Comment as</span> <?php echo $_SESSION['username']; ?></li>
                             <li><textarea name="comment" id="comment" required></textarea></li>
-                            <li><input type="submit" name="submit" class="btn-comment">Comment</input></li>
+                            <li><input type="submit" name="submit" class="btn-comment" value="Comment"></li>
                         </ul>
                     </div>
                     </form>
-                    <?php endif; ?>
+                    <?php } else{ ?>
+                        <div class="input-comment">
+                        <img src="assets/images/profiles/admin_account.png">
+                        <ul>
+                            <li><span>You must <a href="login.php" style="text-decoration:none">Login</a> first!</span> </li>
+                            <li><textarea name="comment" id="comment" readonly>You must login first before comment!</textarea></li>
+                        </ul>
+                    </div>
+                    <?php } ?>
                 </div>
 
             </div><br>

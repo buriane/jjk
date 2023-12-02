@@ -8,6 +8,8 @@
         if($_SESSION['level'] != "Administrator"){
             header('Location:login.php?message=validate');
         }
+    }else{
+        header('Location:login.php?message=validate');
     }
 ?>
 

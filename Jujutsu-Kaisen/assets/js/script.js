@@ -73,11 +73,13 @@ function fullScreen(){
         document.getElementById("container-title").style.width = "70%";
         document.getElementById("watch-sidebar").style.float = "right";
         document.getElementById("watch-sidebar").style.marginTop = "-59vh";
+        document.getElementById("screen-size").innerHTML = "<img src='assets/icon/expand.svg'> Reduce";
     }else if(watch.style.width = "100%"){
         document.getElementById("watch-content").style.width = "75%";
         document.getElementById("container-title").style.width = "100%";
         document.getElementById("watch-sidebar").style.float = "none";
-        document.getElementById("watch-sidebar").style.marginTop = "0";
+        document.getElementById("watch-sidebar").style.marginTop = "0"
+        document.getElementById("screen-size").innerHTML = "<img src='assets/icon/expand.svg'> Expand";
     }
 }
 
@@ -91,6 +93,7 @@ function screenBrightness(){
         document.getElementById("comment-section").style.filter = "brightness(20%)";
         document.getElementById("footer").style.filter = "brightness(20%)";
         document.getElementById("comment").readOnly = "true";
+        document.getElementById("screen-brightness").innerHTML = "<img src='assets/icon/light-bulb.svg'> Turn on the light"
     }else if(nav.style.filter = "brightness(20%)"){
         document.getElementById("navigation-bar").style.filter = "brightness(100%)";
         document.getElementById("container-title").style.filter = "brightness(100%)";
@@ -98,6 +101,7 @@ function screenBrightness(){
         document.getElementById("comment-section").style.filter = "brightness(100%)";
         document.getElementById("footer").style.filter = "brightness(100%)";
         document.getElementById("comment").readOnly = "false";
+        document.getElementById("screen-brightness").innerHTML = "<img src='assets/icon/light-bulb.svg'> Turn off the light";
     }
 }
 

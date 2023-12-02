@@ -55,7 +55,7 @@
                         <tr>
                             <td>Studio</td>
                             <td>:</td>
-                            <td>MAPPA</td>
+                            <td>MAPPA</  td>
                         </tr>
                         <tr>
                             <td>Showing</td>
@@ -86,24 +86,13 @@
                     <h4>Episode Jujutsu Kaisen (TV)</h4>
                     <div class="list-episode">
                         <ul>
-                            <li><a href="watch.php">Episode 18</a> <a href="watch.php" class="btn-episode">Watch</a></li>
-                            <li><a href="watch.php">Episode 17</a> <a href="watch.php" class="btn-episode">Watch</a></li>
-                            <li><a href="watch.php">Episode 16</a> <a href="watch.php" class="btn-episode">Watch</a></li>
-                            <li><a href="watch.php">Episode 15</a> <a href="watch.php" class="btn-episode">Watch</a></li>
-                            <li><a href="watch.php">Episode 14</a> <a href="watch.php" class="btn-episode">Watch</a></li>
-                            <li><a href="watch.php">Episode 13</a> <a href="watch.php" class="btn-episode">Watch</a></li>
-                            <li><a href="watch.php">Episode 12</a> <a href="watch.php" class="btn-episode">Watch</a></li>
-                            <li><a href="watch.php">Episode 11</a> <a href="watch.php" class="btn-episode">Watch</a></li>
-                            <li><a href="watch.php">Episode 10</a> <a href="watch.php" class="btn-episode">Watch</a></li>
-                            <li><a href="watch.php">Episode 9</a> <a href="watch.php" class="btn-episode">Watch</a></li>
-                            <li><a href="watch.php">Episode 8</a> <a href="watch.php" class="btn-episode">Watch</a></li>
-                            <li><a href="watch.php">Episode 7</a> <a href="watch.php" class="btn-episode">Watch</a></li>
-                            <li><a href="watch.php">Episode 6</a> <a href="watch.php" class="btn-episode">Watch</a></li>
-                            <li><a href="watch.php">Episode 5</a> <a href="watch.php" class="btn-episode">Watch</a></li>
-                            <li><a href="watch.php">Episode 4</a> <a href="watch.php" class="btn-episode">Watch</a></li>
-                            <li><a href="watch.php">Episode 3</a> <a href="watch.php" class="btn-episode">Watch</a></li>
-                            <li><a href="watch.php">Episode 2</a> <a href="watch.php" class="btn-episode">Watch</a></li>
-                            <li><a href="watch.php">Episode 1</a> <a href="watch.php" class="btn-episode">Watch</a></li>
+                            <?php
+                            $sql = "SELECT * FROM episode JOIN season ON episode.id_season = season.id_season WHERE episode.id_season = 1 ORDER BY file_uploaded DESC";
+                            $query = mysqli_query($conn, $sql); 
+                            while($data = mysqli_fetch_array($query)){
+                            ?>
+                            <li><a href="watch.php?id-episode=<?php echo $data['id_episode'];?>"><?php echo $data['episode'];?></a> <a href="watch.php?id-episode=<?php echo $data['id_episode'];?>" class="btn-episode">Watch</a></li>
+                            <?php } ?>
                         </ul>
                     </div>
                 </div>
@@ -126,9 +115,7 @@
                 </div>
             </div>
         </div>
-    <div class="footer" id="footer">
-        &copy; Jujutsu Kaisen 2023. All rights reserved.
-    </div>
+        
         <script src="assets/js/script.js"></script>
     </body>
 </html>

@@ -1,4 +1,4 @@
-<nav>
+<nav id="navigation-bar">
     <a href="index.php"><img src="assets/images/logo.png" class="logo" alt="Logo"></a>
     <ul>
         <li class="dropdown">
@@ -14,12 +14,8 @@
             if($_SESSION['level'] == "Administrator"){
                 echo "<a href='dashboard.php' class='nav-account'>Dashboard</a>";
             }else if($_SESSION['level'] == "Member"){
-                echo '<a style="text-decoration: none;" href="editProfile.php">' . $_SESSION['username'] . '</a>';
-                if (isset($_SESSION['picture']) && file_exists('assets/images/profiles/' . $_SESSION['picture'])) {
-                    echo '<img src="assets/images/profiles/' . $_SESSION['picture'] . '" alt="Profile Picture" width="200px" style="border-radius: 50%;">';
-                } else {
-                    echo '<img src="default.png" alt="Default Picture" width="200px" style="border-radius: 50%;">';
-                }
+                echo "<a href='account.php' class='nav-account'>Account</a>";
+
             }
         }else{
             echo "<a href='login.php' class='nav-account'>Login</a>";

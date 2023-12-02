@@ -34,11 +34,36 @@ if (isset($_POST['change_password'])) {
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Change Password</title>
+        <title>Jujutsu Kaisen - Shibuya Incident</title>
+        <link rel="stylesheet" type="text/css" href="assets/css/style.css">
+        <link rel="icon" href="assets/icon/jujutsu-kaisen-highschool.ico"/>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <style>
+            .account-container{
+                padding: 120px 20px;
+            }
+        </style>
 </head>
 <body>
+<div class="account-container">
+            <div class="account-section">
+                <div class="account-content">
+                    <form name="change-password" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="POST">
+                    <h2>User Profiles</h2>
+                    <span><a href="index.php">Home</a> &gt; <a href="account.php">User Profiles</a> &gt; <a href="changePass.php">Change Password</a></span>
+                    <label for="old_password">Current Password</label>
+                    <input id="old_password" type="password" name="old_password" required>
+                    <label for="new_password">New Password</label>
+                    <input id="new_password" type="password" name="new_password" required>
+                    <label for="confirm_password">Confirm New Password</label>
+                    <input id="confirm_password" type="password" name="confirm_password" required><br>
+                    <input type="submit" name="change_password" value="Change Password">
+                </form>
+                </div>
+            </div>
+        </form>
+    </div>
     <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
         <label for="old_password">Current Password</label>
         <input id="old_password" type="password" name="old_password" required><br>

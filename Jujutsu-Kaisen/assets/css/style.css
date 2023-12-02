@@ -1389,6 +1389,7 @@ nav ul li ul li{
 }
 
 .input-comment .btn-comment{
+    border: none;
     float: right;
     text-decoration: none;
     color: white;
@@ -1396,7 +1397,7 @@ nav ul li ul li{
     background-color:#C70039;
     margin: 6px 0px;
     padding: 4px 8px;
-    border-radius: 4px;
+    border-radius: 8px;
     -webkit-transition: 0.2s;
     transition: 0.2s;
 }
@@ -1496,6 +1497,7 @@ nav ul li ul li{
 
 .season-content .season-episode{
     padding: 0px;
+    padding-bottom: 80px;
 }
 
 .season-content .season-episode h4{
@@ -2411,6 +2413,119 @@ nav ul li ul li{
 
 .update-section .update-content .update-item input[type="submit"]:hover{
     background-color: #910029;
+}
+
+.account-container{
+    width: 100%;
+    height: 100vh;
+    background-color: rgba(13, 13, 13, 1);
+}
+
+.account-container .profile-section{
+    width: 100%;
+    min-height: 20vh;
+    background:url('../images/account-section.png') no-repeat;
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.account-container .profile-section .profile-content{
+    margin: auto;
+    padding-top: 80px;
+    min-height: 400px;
+}
+
+.account-container .profile-section .profile-content img{
+    display: block;
+    width: 200px;
+    height: 200px;
+    border-radius: 100%;
+    margin-bottom: -50px;
+}
+
+.account-container .profile-section .profile-content input[type="file"]{
+    width: 0;
+    opacity: 0;
+}
+
+.account-container .profile-section .profile-content label {
+    float: right;
+    margin-left: 20px;
+    font-size: 100%;
+    cursor: pointer;
+    padding: 4px 10px;
+    background-color: white;
+    color: rgb(41, 41, 41);
+    border-radius: 100%;
+    object-fit: cover;
+}
+
+.account-container .account-section{
+    display: flex;
+    min-height: 30vh;
+    max-height: 30vh;
+    width: 40%;
+}
+
+.account-container .account-section label{
+    display: block;
+    color: white;
+    font-weight: 600;
+    font-size: 16px;
+    margin-top: 20px;
+}
+
+.account-container .account-section input{
+    width: 100%;
+    padding: 4px 8px;
+    border-radius: 6px;
+    border: none;
+    -webkit-transition: 0.2s;
+    transition: 0.2s;
+}
+
+.account-container .account-section input[type="submit"]:hover{
+    background-color: #C70039;
+    color: white;
+    cursor:pointer
+}
+
+.account-container .account-section h2{
+    color: white;
+    font-weight: 600;
+}
+
+.account-container .account-section .account-content{
+    width: 100%;
+}
+.account-container .account-section .account-content span{
+    color: #767676;
+    font-size: 13px;
+}
+
+.account-container .account-section .account-content span a{
+    text-decoration: none;
+    color: #767676;
+    font-size: 13px;
+}
+
+.account-container .account-section .account-content span a:hover{
+    color: #555555;
+}
+
+.account-container .account-section .account-content a.change-password{
+    text-decoration: none;
+    font-size: 13px;
+    color: #767676;
+    -webkit-transition: 0.2s;
+    transition: 0.2s;
+}
+
+.account-container .account-section .account-content a.change-password:hover{
+    color: #555555;
 }
 
 /* Sidebar Article 
