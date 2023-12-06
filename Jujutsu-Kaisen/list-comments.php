@@ -29,7 +29,7 @@ if(!$query){
                     <?php echo $data[3]; ?>
                 </td>
                 <td>
-                    <a href="delete.php?delete-comment=<?php echo $data[0];?>" class="delete" onclick="return confirm('Are you sure you want to delete this article?')"><img src="assets/icon/delete.svg" alt="Delete Button"></a>
+                    <a href="delete.php?delete-comment=<?php echo $data[0];?>" class="delete" onclick="return confirm('Are you sure you want to delete this comment?')"><img src="assets/icon/delete.svg" alt="Delete Button"></a>
                 </td>
             </tr>
             <?php } ?>

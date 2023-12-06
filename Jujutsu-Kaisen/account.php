@@ -22,8 +22,8 @@ if (isset($_POST['update'])) {
     
         $query = "UPDATE user SET username = '$new_username', email = '$email', picture = '$name' WHERE username = '$username'";
     } else {
-        $query = "UPDATE user SET username = '$new_username', email = '$email', picture = NULL WHERE username = '$username'";
-        $_SESSION['picture'] = null;
+        $name = $user['picture'];
+        $query = "UPDATE user SET username = '$new_username', email = '$email' WHERE username = '$username'";
     }
     
     mysqli_query($conn, $query);
@@ -84,9 +84,9 @@ if (isset($_POST['update'])) {
                 <?php endif; ?>
                 <div class="input-container">
                     <label id="label-picture" for="picture">+</label>
-                    <input type="file" id="picture" accept="image/jpeg, image/jpg, image/png"/>
+                    <input type="file" id="picture" name="picture" accept="image/jpeg, image/jpg, image/png"/>
                 </div>
-                <input id="picture" type="file" name="picture"><br>
+                <br>
             </div>
             </div>
             <div class="account-section">

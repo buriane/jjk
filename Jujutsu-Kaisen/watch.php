@@ -5,7 +5,7 @@
     if (isset($_POST['submit'])) {
         $comment = $_POST['comment'];
         $user = $_SESSION['username'];
-        $id = $_GET['id_episode'];
+        $id = $_GET['id-episode'];
         $query = "INSERT INTO comment (username, comment, id_episode) VALUES ('$user', '$comment', '$id')";
         mysqli_query($conn, $query);
         if($query){
@@ -55,6 +55,44 @@
         <style>
             body{background-color: rgba(13, 13, 13);}
             .footer{background-color: transparent;}
+            .btn-editcomment{
+                border: none;
+                padding: 2px 6px;
+                border-radius: 6px;
+                margin: 4px;
+                display: inline-block;
+                background-color: #445d48;
+                color: white;
+                -webkit-transition: 0.2s;
+                transition: 0.2s;
+            }
+            .btn-editcomment:hover{
+                color: #767676;
+                background-color: #28372b;
+            }
+            .btn-delcomment{
+                display: inline-block;
+                border: none;
+                padding: 2px 6px;
+                border-radius: 6px;
+                margin: 4px;
+                background-color: #c70039;
+                color: white;
+                -webkit-transition: 0.2s;
+                transition: 0.2s;
+            }
+            .btn-delcomment:hover{
+                color: #767676;
+                background-color: #910029;
+            }
+            .textarea-comment{
+                border-radius: 4px;
+                max-width: 500px;
+                min-height: 100px;
+                max-height: 200px;
+                width: 100%;
+                height: 100%;
+            }
         </style>
     </head>
     <body>
@@ -91,19 +129,26 @@
                 </video>
                 <div class="watch-navigation">
                     <?php 
-                        while ($data['id_episode'] != NULL && $data['id_episode'] > 0) {
-                            $data['id_episode']--;
-                            $previous = $data['id_episode'];
-                            if ($data['id_season'] == 1) {
-                                $previous = $data['id_episode'];
-                                break;
-                            } else {
-                                $data['id_episode']--;
-                            }
-                        }
+                        $current_episode = $data['id_episode'];
+                        $current_season = $data['id_season'];
+
+                        $result_max = mysqli_query($conn, "SELECT MAX(id_episode) AS max_episode FROM episode WHERE id_season = $current_season");
+                        $row_max = mysqli_fetch_array($result_max);
+                        $max_episode = $row_max['max_episode'];
+
+                        $result_min = mysqli_query($conn, "SELECT MIN(id_episode) AS min_episode FROM episode WHERE id_season = $current_season");
+                        $row_min = mysqli_fetch_array($result_min);
+                        $min_episode = $row_min['min_episode'];
+
+                        $previous = max($min_episode, $current_episode - 1);
+                        $next = $current_episode < $max_episode ? $current_episode + 1 : $current_episode;
                     ?>
-                    <a href="watch.php?id-episode=<?php echo $previous;?>">&lt;Previous</a>
-                    <a href="">Next&gt;</a>
+                    <?php if ($current_episode > $min_episode): ?>
+                        <a href="watch.php?id-episode=<?php echo $previous;?>&id_season=<?php echo $current_season;?>">&lt;Previous</a>
+                    <?php endif; ?>
+                    <?php if ($current_episode < $max_episode): ?>
+                        <a href="watch.php?id-episode=<?php echo $next;?>&id_season=<?php echo $current_season;?>">Next&gt;</a>
+                    <?php endif; ?>
                 </div>
                 <div class="container-title"  id="container-title">
                     <?php 
@@ -217,21 +262,21 @@
                                         <?php if ($editing && $_POST['id_comment'] == $row['id_comment']): ?>
                                             <!-- Form for editing comment -->
                                             <form action="<?php echo $_SERVER['REQUEST_URI']; ?>" method="post">
-                                                <textarea name="edited_comment"><?php echo $row['comment']; ?></textarea>
+                                                <textarea name="edited_comment" class="textarea-comment"><?php echo $row['comment']; ?></textarea>
                                                 <input type="hidden" name="id_comment" value="<?php echo $row['id_comment']; ?>">
-                                                <input type="submit" name="update" value="Save Edit">
+                                                <br><input type="submit" name="update" value="Save Edit" class="btn-editcomment">
                                             </form>
                                         <?php else: ?>
                                             <!-- Form for initiating edit -->
                                             <form action="<?php echo $_SERVER['REQUEST_URI']; ?>" method="post">
                                                 <input type="hidden" name="id_comment" value="<?php echo $row['id_comment']; ?>">
-                                                <input type="submit" name="edit" value="Edit">
+                                                <input type="submit" name="edit" value="Edit" class="btn-editcomment">
                                             </form>
                                         <?php endif; ?>
                                         <!-- Form for deleting comment -->
                                         <form action="<?php echo $_SERVER['REQUEST_URI']; ?>" method="post">
                                             <input type="hidden" name="id_comment" value="<?php echo $row['id_comment']; ?>">
-                                            <input type="submit" name="delete" value="Delete">
+                                            <input type="submit" name="delete" value="Delete" class="btn-delcomment">
                                         </form>
                                     </li>
                                 <?php endif; ?>
@@ -271,9 +316,6 @@
                 </div>
 
             </div><br>
-            <div class="footer" id="footer">
-                &copy; Jujutsu Kaisen 2023. All rights reserved.
-            </div>
         </div>
         <script src="assets/js/script.js"></script>
     </body>

@@ -31,7 +31,7 @@
                 <div class="dashboard-item">
                     <ul>
                         <a href="index.php"><li class="logo"><img src="assets/images/logo.png" alt="Logo Jujutsu Kaisen"></li></a>
-                        <a href="dashboard.php?user-profiles"><li <?php if(isset($_GET['user-profiles'])){echo "class='active'";}?>>User Profiles</li></a>
+                        <a href="dashboard.php?user-profiles"><li <?php if(isset($_GET['user-profiles'])){echo "class='active'";}?>>Admin Profiles</li></a>
                         <a href="dashboard.php?list-users"><li <?php if(isset($_GET['list-users'])){echo "class='active'";}?>>List Users</li></a>
                         <a href="dashboard.php?insert-article"><li <?php if(isset($_GET['insert-article'])){echo "class='active'";}?>>Insert Article</li></a>
                         <a href="dashboard.php?list-articles"><li <?php if(isset($_GET['list-articles'])){echo "class='active'";}?>>List Articles</li></a>

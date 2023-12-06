@@ -75,8 +75,8 @@ $query = mysqli_query($conn, $select);
 $data = mysqli_fetch_array($query);
 ?>
 <div class="dashboard-content">
-    <h2>User Profiles</h2>
-    <span><a href="index.php">Home</a> &gt; <a href="dashboard.php">Dashboard</a> &gt; <a href="season-one.php">User Profiles</a></span>
+    <h2>Admin Profiles</h2>
+    <span><a href="index.php">Home</a> &gt; <a href="dashboard.php">Dashboard</a> &gt; <a href="season-one.php">Admin Profiles</a></span>
     <div class="dashboard-item">
         <form name="change-profiles" action="<?php $_SERVER['PHP_SELF'];?>" method="POST" enctype="multipart/form-data">
             <img src="assets/images/profiles/<?php echo $data['picture'];?>">
@@ -84,7 +84,6 @@ $data = mysqli_fetch_array($query);
             <input type="text" name="username" placeholder="Your username here" value="<?php echo $data['username'];?>" required>
             <label for="email">Email</label>
             <input type="email" name="email" placeholder="Your email here" value="<?php echo $data['email'];?>" required>
-            <input type="submit" name="change-profile" value="Update">
         </form>
     </div>
 </div>
